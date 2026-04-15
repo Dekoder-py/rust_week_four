@@ -1,7 +1,9 @@
 [package]
-name = "rust_week_four"
+name = "kyle_tinylang"
 version = "0.1.0"
 edition = "2024"
+readme = "README.md"
+license = "MIT"
 
 [build-dependencies]
 lalrpop = "0.23.1"

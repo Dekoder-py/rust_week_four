@@ -26,4 +26,9 @@ Variables: just put the name = val: `i = 2`
 
 Builtin fetch, returns string: `says fetch(url)` || `resp = fetch(url)` (returns response body)
 
-### Run kyle-tinylang FILENAME to run your script. There's an example file called test.tl in this repo.
+### Run `kyle_tinylang FILENAME` to run your script. There's an example file called test.tl in this repo.
+
+
+## Install 
+
+`cargo install kyle_tinylang`
