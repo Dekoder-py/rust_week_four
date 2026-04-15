@@ -1,4 +1,4 @@
-says "Hello world"~
+says 'Hello world'~
 
 i = 1~
 dowhile  i < 6:
