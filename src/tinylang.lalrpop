@@ -23,7 +23,7 @@ Statement: Statement = {
         Statement::If(cond, body, None),
     "if" <cond:Expr> "then" <body:SemiStatement+> "else" <else_body:SemiStatement+> "end" =>
         Statement::If(cond, body, Some(else_body)),
-    "dowhile" <cond:Expr> "do" <body:SemiStatement+> "end" =>
+    "dowhile" <cond:Expr> ":" <body:SemiStatement+> "end" =>
         Statement::DoWhile(cond, body),
     "def" <name:Ident> "(" <params:Comma<Ident>> ")" <body:SemiStatement+> "end" =>
         Statement::Def(name, params, body),
