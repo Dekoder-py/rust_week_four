@@ -834,6 +834,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "kyle_tinylang"
+version = "0.1.0"
+dependencies = [
+ "clap",
+ "lalrpop",
+ "lalrpop-util",
+ "reqwest",
+]
+
+[[package]]
 name = "lalrpop"
 version = "0.23.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1228,16 +1238,6 @@ dependencies = [
  "libc",
  "untrusted",
  "windows-sys 0.52.0",
-]
-
-[[package]]
-name = "rust_week_four"
-version = "0.1.0"
-dependencies = [
- "clap",
- "lalrpop",
- "lalrpop-util",
- "reqwest",
 ]
 
 [[package]]
