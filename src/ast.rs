@@ -24,6 +24,7 @@ pub enum Statement {
     Says(Expr),
     Assign(String, Expr),
     If(Expr, Vec<Statement>, Option<Vec<Statement>>),
+    Unless(Expr, Vec<Statement>, Option<Vec<Statement>>),
     DoWhile(Expr, Vec<Statement>),
     Def(String, Vec<String>, Vec<Statement>),
     Return(Expr),

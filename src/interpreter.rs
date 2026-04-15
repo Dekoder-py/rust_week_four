@@ -80,6 +80,23 @@ impl Interpreter {
                 }
                 Ok(None)
             }
+            Statement::Unless(cond, body, else_body) => {
+                let val = self.eval_expr(cond)?;
+                if !self.is_truthy(&val) {
+                    for s in body {
+                        if let Some(ret) = self.exec_statement(s)? {
+                            return Ok(Some(ret));
+                        }
+                    }
+                } else if let Some(else_stmts) = else_body {
+                    for s in else_stmts {
+                        if let Some(ret) = self.exec_statement(s)? {
+                            return Ok(Some(ret));
+                        }
+                    }
+                }
+                Ok(None)
+            }
             Statement::DoWhile(cond, body) => {
                 loop {
                     let val = self.eval_expr(cond)?;

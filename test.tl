@@ -6,4 +6,10 @@ dowhile  i < 6:
   i = i + 1;
 end;
 
+unless i == 6 then
+  says "yes";
+else
+  says "no";
+end;
+
 says fetch("https://api.codingcorner.dev/health");
