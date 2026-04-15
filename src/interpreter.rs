@@ -1,6 +1,5 @@
-use std::collections::HashMap;
 use crate::ast::{Expr, Op, Statement};
-
+use std::collections::HashMap;
 
 #[derive(Clone, Debug)]
 pub enum Value {
@@ -96,10 +95,13 @@ impl Interpreter {
                 Ok(None)
             }
             Statement::Def(name, params, body) => {
-                self.functions.insert(name.clone(), Function {
-                    params: params.clone(),
-                    body: body.clone(),
-                });
+                self.functions.insert(
+                    name.clone(),
+                    Function {
+                        params: params.clone(),
+                        body: body.clone(),
+                    },
+                );
                 Ok(None)
             }
             Statement::Return(expr) => {
@@ -118,11 +120,11 @@ impl Interpreter {
             Expr::Number(n) => Ok(Value::Number(*n)),
             Expr::StringLiteral(s) => Ok(Value::StringVal(s.clone())),
             Expr::Bool(b) => Ok(Value::Bool(*b)),
-            Expr::Variable(name) => {
-                self.variables.get(name)
-                    .cloned()
-                    .ok_or_else(|| format!("undefined variable: {name}"))
-            }
+            Expr::Variable(name) => self
+                .variables
+                .get(name)
+                .cloned()
+                .ok_or_else(|| format!("undefined variable: {name}")),
             Expr::BinOp(left, op, right) => {
                 let l = self.eval_expr(left)?;
                 let r = self.eval_expr(right)?;
@@ -161,7 +163,20 @@ impl Interpreter {
     }
 
     fn call_function(&mut self, name: &str, args: Vec<Value>) -> Result<Value, String> {
-        let func = self.functions.get(name)
+        if name == "fetch" {
+            if args.len() != 1 {
+                return Err(format!( "fetch expects 1 argument, got {}", args.len()));
+            }
+
+            let url = args[0].to_string();
+            let resp = reqwest::blocking::get(&url).expect(format!("Failed to fetch {}", &url).as_mut_str());
+            let body = Value::StringVal(resp.text().expect("Failed to parse response body"));
+            return Ok(body)
+        }
+
+        let func = self
+            .functions
+            .get(name)
             .ok_or_else(|| format!("undefined function: {name}"))?;
 
         if args.len() != func.params.len() {
