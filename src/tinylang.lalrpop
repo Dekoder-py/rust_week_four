@@ -13,7 +13,7 @@ pub Program: Vec<Statement> = {
 };
 
 SemiStatement: Statement = {
-    <s:Statement> ";" => s,
+    <s:Statement> "~" => s,
 };
 
 Statement: Statement = {

@@ -1,15 +1,15 @@
-says "Hello world";
+says "Hello world"~
 
-i = 1;
+i = 1~
 dowhile  i < 6:
-  says i;
-  i = i + 1;
-end;
+  says i~
+  i = i + 1~
+end~
 
 unless i == 6 then
-  says "yes";
+  says "yes"~
 else
-  says "no";
-end;
+  says "no"~
+end~
 
-says fetch("https://api.codingcorner.dev/health");
+says fetch("https://api.codingcorner.dev/health")~
