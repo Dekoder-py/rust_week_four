@@ -2,6 +2,10 @@ pub mod ast;
 pub mod interpreter;
 
 use lalrpop_util::lalrpop_mod;
+use std::fs::File;
+use std::io::prelude::*;
+use clap::Parser;
+
 lalrpop_mod!(
     #[allow(clippy::ptr_arg)]
     #[rustfmt::skip]
@@ -10,43 +14,22 @@ lalrpop_mod!(
 
 use interpreter::Interpreter;
 
-fn main() {
-    let source = r#"
-def greet(name)
-    puts "Hello, " + name + "!";
-end;
+#[derive(Parser)]
+struct Args {
+    #[arg()]
+    filename: String
+}
 
-greet("world");
+fn main() -> std::io::Result<()> {
+    let args = Args::parse();
+    let filename = args.filename;
+    let mut file = File::open(filename)?;
+    let mut contents = String::new();
+    file.read_to_string(&mut contents)?;
 
-x = 10;
-y = 3;
-puts x + y;
-
-def factorial(n)
-    if n < 2 then
-        return 1;
-    end;
-    return n * factorial(n - 1);
-end;
-
-result = factorial(5);
-puts result;
-
-i = 1;
-while i < 6 do
-    puts i;
-    i = i + 1;
-end;
-
-if 10 > 5 then
-    puts "ten is greater";
-else
-    puts "this won't print";
-end;
-"#;
 
     let parser = tinylang::ProgramParser::new();
-    let program = parser.parse(source).unwrap_or_else(|e| {
+    let program = parser.parse(&contents).unwrap_or_else(|e| {
         eprintln!("Parse error: {e}");
         std::process::exit(1);
     });
@@ -56,5 +39,7 @@ end;
         eprintln!("Runtime error: {e}");
         std::process::exit(1);
     }
+
+    Ok(())
 }
 
